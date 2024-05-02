@@ -5,27 +5,30 @@ import java.io.*;
 public class CSVManager {
 
     public static void copyColumns(String inputFile, String outputFile, int[] columnsToCopy) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] columns = line.split(","); // Assuming CSV delimiter is comma (,)
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] columns = line.split(","); // Assuming CSV delimiter is comma (,)
 
-                StringBuilder newLine = new StringBuilder();
-                for (int columnIndex : columnsToCopy) {
-                    if (columnIndex >= 0 && columnIndex < columns.length) {
-                        newLine.append(columns[columnIndex]).append(",");
-                    }
+            StringBuilder newLine = new StringBuilder();
+            for (int columnIndex : columnsToCopy) {
+                if (columnIndex >= 0 && columnIndex < columns.length) {
+                    newLine.append(columns[columnIndex]).append(",");
                 }
-                // Remove the last comma
-                if (!newLine.isEmpty()) {
-                    newLine.deleteCharAt(newLine.length() - 1);
-                }
-
-                writer.write(newLine.toString());
-                writer.newLine();
             }
+            // Remove the last comma
+            if (!newLine.isEmpty()) {
+                newLine.deleteCharAt(newLine.length() - 1);
+            }
+
+
+            String out = newLine.toString();
+            writer.write(out);
+            writer.newLine();
+            //writer.write("sssssssssssssssdssdasdasdatdfyuuuuuuuutdyfuyyffyjvhjffjfyvfyvujfyvfyfuyyufyfyufuyfuyssss");
+            //writer.newLine();
         }
     }
 
@@ -44,6 +47,7 @@ public class CSVManager {
                 System.err.println("Error: " + e.getMessage());
             }
         }
+
     }
 
 }
