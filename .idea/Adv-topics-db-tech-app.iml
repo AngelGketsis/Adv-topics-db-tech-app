@@ -6,5 +6,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="springframework.boot.spring" level="project" />
+    <orderEntry type="library" name="springframework.spring.web" level="project" />
+    <orderEntry type="library" name="springframework.boot.spring.autoconfigure" level="project" />
   </component>
 </module>
