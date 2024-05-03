@@ -1,4 +1,4 @@
-package org.tardis.frontend;
+package org.tardis.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

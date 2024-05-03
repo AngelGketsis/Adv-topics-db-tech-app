@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CSVManager" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="Backend" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="org.tardis.backend.CSVManager" />
     <module name="ATT-4008-4739" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/target" />
