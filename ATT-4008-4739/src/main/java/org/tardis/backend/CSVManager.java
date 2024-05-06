@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CSVManager {
 
-
+    private static String dataDir = "./classes/data/";
 
     public static void copyColumns(String inputFile, String outputFile, String[] columnsToCopy) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -120,9 +120,9 @@ public class CSVManager {
 
 
     public static void main(String[] args) {
-        String inputFile = "../src/main/resources/data/countries.csv"; // Path to input CSV file
+        String inputFile = dataDir + "countries.csv"; // Path to input CSV file
 
-        String[] outputFile = {"../src/main/resources/data/geo_data.csv", "../src/main/resources/data/currency_data.csv", "../src/main/resources/data/development_data.csv", "../src/main/resources/data/region_data.csv"}; // Paths to output CSV files
+        String[] outputFile = {dataDir + "/geo_data.csv", dataDir + "/currency_data.csv", dataDir + "/development_data.csv", dataDir + "/region_data.csv"}; // Paths to output CSV files
         String[][] columnsToCopy = {{"ISO3", "Display_Name", "Area_SqKm", "Population", "Capital", "Continent"}, {"ISO3", "CurrencyCode", "CurrencyName"}, {"ISO3", "Status","Developed or Developing","Small Island Developing States (SIDS)","Land Locked Developing Countries (LLDC)","Least Developed Countries (LDC)"}, {"ISO3", "Phone","Region Code","Region Name","Sub-region Code","Sub-region Name","Intermediate Region Code","Intermediate Region Name"}}; // Indices of columns to copy (0-based)
         for(int i = 0; i < outputFile.length; i++)
         {
@@ -135,36 +135,36 @@ public class CSVManager {
         }
 
         try {
-            copyColumns("../src/main/resources/data/Annual_Surface_Temperature_Change.csv", "../src/main/resources/data/ASTC_idoc.csv", new String[] {"ISO3","F1961","F1962","F1963","F1964","F1965","F1966","F1967","F1968","F1969","F1970","F1971","F1972","F1973","F1974","F1975","F1976","F1977","F1978","F1979","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
+            copyColumns(dataDir + "/Annual_Surface_Temperature_Change.csv", dataDir + "/ASTC_idoc.csv", new String[] {"ISO3","F1961","F1962","F1963","F1964","F1965","F1966","F1967","F1968","F1969","F1970","F1971","F1972","F1973","F1974","F1975","F1976","F1977","F1978","F1979","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV("../src/main/resources/data/ASTC_idoc.csv", "../src/main/resources/data/ASTC_data.csv");
+        processCSV(dataDir + "/ASTC_idoc.csv", dataDir + "/ASTC_data.csv");
 
         try {
-            copyColumns("../src/main/resources/data/Climate-related_Disasters_Frequency.csv", "../src/main/resources/data/CRDF_idoc.csv", new String[] {"ISO3","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
+            copyColumns(dataDir + "/Climate-related_Disasters_Frequency.csv", dataDir + "/CRDF_idoc.csv", new String[] {"ISO3","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV("../src/main/resources/data/CRDF_idoc.csv", "../src/main/resources/data/CRDF_data.csv");
+        processCSV(dataDir + "/CRDF_idoc.csv", dataDir + "/CRDF_data.csv");
 
         try {
-            copyColumns("../src/main/resources/data/Land_Cover_Accounts.csv", "../src/main/resources/data/LCA_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
+            copyColumns(dataDir + "/Land_Cover_Accounts.csv", dataDir + "/LCA_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV("../src/main/resources/data/LCA_idoc.csv", "../src/main/resources/data/LCA_data.csv");
+        processCSV(dataDir + "/LCA_idoc.csv", dataDir + "/LCA_data.csv");
 
         try {
-            copyColumns("../src/main/resources/data/Forest_and_Carbon.csv", "../src/main/resources/data/FC_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
+            copyColumns(dataDir + "/Forest_and_Carbon.csv", dataDir + "/FC_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV("../src/main/resources/data/FC_idoc.csv", "../src/main/resources/data/FC_data.csv");
+        processCSV(dataDir + "/FC_idoc.csv", dataDir + "/FC_data.csv");
 
     }
 
