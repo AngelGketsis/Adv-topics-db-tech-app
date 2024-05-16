@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <title>ATT - 4739 - 4008</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+    <!-- Include Header -->
+    <div th:replace="fragments/header :: header" type="header"></div>
+
+    <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <script>
+        var dataPoints = ${dataPoints};
+        Highcharts.chart('chart', {
+            title: {
+                text: 'Line Chart Example'
+            },
+            xAxis: {
+                categories: dataPoints.map(function(point) {
+                    return point.label;
+                })
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                }
+            },
+            series: [{
+                type: 'line',
+                name: 'Line 1',
+                data: dataPoints.map(function(point) {
+                    return point.value;
+                })
+            }]
+        });
+    </script>
+
+    <div id="temperatureChart" style="width: 100%; height: 400px;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const data = [
+                // Sample data: [year, temperature change]
+                [2000, 0.24],
+                [2001, 0.28],
+                [2002, 0.33],
+                [2003, 0.42],
+                [2004, 0.54],
+                [2005, 0.59],
+                [2006, 0.62],
+                [2007, 0.65],
+                [2008, 0.67],
+                [2009, 0.70],
+                [2010, 0.74]
+            ];
+
+            Highcharts.chart('temperatureChart', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Annual Surface Temperature Change'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Year'
+                    },
+                    type: 'linear',
+                    labels: {
+                        formatter: function () {
+                            return this.value; // clean, unformatted number for year
+                        }
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Temperature Change (°C)'
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: [{
+                    name: 'Temperature Change',
+                    data: data
+                }]
+            });
+        });
+    </script>
+
+    <!-- Include Footer -->
+    <div th:replace="fragments/footer :: footer" type="footer"></div>
+</body>
+</html>
