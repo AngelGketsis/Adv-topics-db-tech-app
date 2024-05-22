@@ -1,3 +1,9 @@
+-- Create the database
+CREATE DATABASE CountryDatabase;
+
+-- Use the newly created database
+USE CountryDatabase;
+
 -- Create Countries table
 CREATE TABLE Countries (
     ISO3 CHAR(15) PRIMARY KEY,
@@ -36,8 +42,8 @@ CREATE TABLE CountryDevelopmentStatus (
     Status VARCHAR(50),
     Developed_or_Developing VARCHAR(20),
     SIDS BOOLEAN not null default FALSE,
-    LLDC BOOLEAN,
-    LDC BOOLEAN,
+    LLDC BOOLEAN not null default FALSE,
+    LDC BOOLEAN not null default FALSE,
     FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
@@ -45,34 +51,26 @@ CREATE TABLE CountryDevelopmentStatus (
 CREATE TABLE ASTC_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value DOUBLE,
-    PRIMARY KEY (ISO3, Year),
-    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
+    Value DOUBLE
 );
 
 -- Create CountryData table
 CREATE TABLE CRDF_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value INT,
-    PRIMARY KEY (ISO3, Year),
-    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
+    Value INT
 );
 
 -- Create CountryData table
 CREATE TABLE FC_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value DOUBLE,
-    PRIMARY KEY (ISO3, Year),
-    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
+    Value DOUBLE
 );
 
 -- Create CountryData table
 CREATE TABLE LCA_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value DOUBLE,
-    PRIMARY KEY (ISO3, Year),
-    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
+    Value DOUBLE
 );

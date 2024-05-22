@@ -48,7 +48,11 @@ public class CSVManager {
                 StringBuilder newLine = new StringBuilder();
                 for (String column : columnsToCopy) {
                     int index = headerMap.get(column);
-                    newLine.append(columns[index]).append(",");
+                    String value = columns[index];
+                    if (value.contains(",") || value.contains("\"")) {
+                        value = "\"" + value.replace("\"", "\"\"") + "\"";
+                    }
+                    newLine.append(value).append(",");
                 }
                 // Remove the last comma
                 if (newLine.length() > 0) {
