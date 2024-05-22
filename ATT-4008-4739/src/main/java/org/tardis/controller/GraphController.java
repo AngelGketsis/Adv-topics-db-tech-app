@@ -31,7 +31,8 @@ public class GraphController {
 
     @GetMapping("/graphs/annual_surface_temperature_changes")
     public String getChart(Model model) {
-        List<DataPoint> dataPoints = chartService.getDataPoints();
+        List<char[]> countries = null;
+        List<List<DataPoint>> dataPoints = chartService.getASTCDataPoints(countries);
         model.addAttribute("dataPoints", dataPoints);
         return "graphs/annual_surface_temperature_changes";
     }

@@ -1,17 +1,13 @@
 package org.tardis.service;
 
+import org.tardis.dao.ASTC_DataDAO;
 import org.tardis.data.DataPoint;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChartService {
-    public List<DataPoint> getDataPoints() {
-        List<DataPoint> list = new ArrayList<DataPoint>();
-
-        // TODO: Get data points from database. Mapper to the rescue
-
-        return list;
-    }
-
+public interface ChartService {
+    List<List<DataPoint>> getASTCDataPoints(List<char[]> isos);
+    List<List<DataPoint>> getCRDFDataPoints(List<char[]> isos);
+    List<List<DataPoint>> getFCDataPoints(List<char[]> isos);
+    List<List<DataPoint>> getLCADataPoints(List<char[]> isos);
 }
