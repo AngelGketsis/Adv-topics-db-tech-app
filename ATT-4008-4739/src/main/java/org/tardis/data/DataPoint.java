@@ -1,16 +1,19 @@
 package org.tardis.data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "ISO3", discriminatorType = DiscriminatorType.CHAR)
 public class DataPoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ISO3")
+    @Column(name = "ISO3", columnDefinition = "char")
     protected char[] ISO3;
     @Column(name = "Year")
     protected int year;
-    @Column(name = "Value")
+    @Column(name = "Value", columnDefinition = "int")
     protected double value;
 
     public DataPoint(char[] ISO3, int year, double value) {
