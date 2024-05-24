@@ -1,5 +1,6 @@
 package org.tardis.service;
 
+import org.springframework.stereotype.Service;
 import org.tardis.dao.ASTC_DataDAO;
 import org.tardis.data.DataPoint;
 

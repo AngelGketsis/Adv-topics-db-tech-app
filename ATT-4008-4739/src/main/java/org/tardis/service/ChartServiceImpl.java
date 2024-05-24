@@ -1,22 +1,34 @@
 package org.tardis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import org.tardis.dao.ASTC_DataDAO;
+import org.tardis.bean.DataBean;
+import org.tardis.dao.*;
 import org.tardis.data.DataPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AutoConfiguration
 public class ChartServiceImpl implements ChartService {
 
     @Autowired
-    private ASTC_DataDAO ASTCRepository, CRDFRepository, FCRepository, LCARepository;
+    private ASTC_DataDAO ASTCRepository;
+    @Autowired
+    private CRDF_DataDAO CRDFRepository;
+    @Autowired
+    private FC_DataDAO FCRepository;
+    @Autowired
+    private LCA_DataDAO LCARepository;
 
     @Autowired
     public List<List<DataPoint>> getASTCDataPoints(List<char[]> ISOs) {
-        List<List<DataPoint>> dataPoints = new ArrayList<List<DataPoint>>();
+        DataBean dataBean = new DataBean();
+
+        List<List<DataPoint>> dataPoints = dataBean.list();
         for (int i = 0; i < ISOs.size(); i++) {
             dataPoints.add(ASTCRepository.findAllByISO3OrderByYearAsc(ISOs.get(i)));
         }
