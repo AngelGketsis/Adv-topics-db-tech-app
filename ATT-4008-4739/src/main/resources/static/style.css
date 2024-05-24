@@ -23,9 +23,12 @@ h1 {
     margin-top: 0px;
 }
 
+table.navigator {
+    margin: auto;
+}
+
 table.header {
     border-collapse: separate;
-
 }
 
 a.button {

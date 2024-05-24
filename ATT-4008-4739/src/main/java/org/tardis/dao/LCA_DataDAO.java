@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.tardis.data.DataPoint;
 import org.tardis.data.LCADP;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public interface LCA_DataDAO extends JpaRepository<LCADP, char[]> {
-    List<DataPoint> findAllByISO3OrderByYearAsc(char[] ISO3); // returns list of currencies
+    ArrayList<DataPoint> findAllByISO3OrderByYearAsc(char[] ISO3); // returns list of currencies
 }

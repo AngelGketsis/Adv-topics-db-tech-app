@@ -1,6 +1,7 @@
 package org.tardis.controller;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@AutoConfiguration
 public class DataController {
     private static final String BASE_PATH = "./classes/data";
     private static final String[] files = {
