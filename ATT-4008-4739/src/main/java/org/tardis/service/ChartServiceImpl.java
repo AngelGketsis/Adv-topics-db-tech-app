@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
 import org.tardis.bean.DataBean;
 import org.tardis.dao.*;
+import org.tardis.data.Country;
 import org.tardis.data.DataPoint;
 
 import java.util.ArrayList;
@@ -22,10 +23,11 @@ public class ChartServiceImpl implements ChartService {
     private FC_DataDAO FCRepository;
     @Autowired
     private LCA_DataDAO LCARepository;
+    @Autowired
+    private CountryDAO countryRepository;
+
 
     public ArrayList<ArrayList<DataPoint>> getASTCDataPoints(ArrayList<char[]> ISOs) {
-        DataBean dataBean = new DataBean();
-
         ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < ISOs.size(); i++) {
             dataPoints.add(ASTCRepository.findAllByISO3OrderByYearAsc(ISOs.get(i)));
@@ -52,9 +54,13 @@ public class ChartServiceImpl implements ChartService {
     public ArrayList<ArrayList<DataPoint>> getLCADataPoints(ArrayList<char[]> isos) {
         ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
-            dataPoints.add(LCARepository.findAllByISO3OrderByYearAsc(isos.get(i)));
+            dataPoints.add(LCARepository.findAllByISO3GroupByISO3YearOrderByYearAsc(isos.get(i)));
         }
         return dataPoints;
+    }
+
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
     }
 
 }

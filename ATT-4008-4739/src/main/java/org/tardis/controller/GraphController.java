@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.tardis.data.Country;
 import org.tardis.service.ChartService;
 import org.tardis.data.DataPoint;
 
@@ -25,18 +26,10 @@ public class GraphController {
         return "graphs/index.html";
     }
 
-    @GetMapping("/graphs/annual_surface_temperature_changes")
-    public String getChart(@NotNull Model model) {
-        List<String> countries = List.of("GRC", "USA", "CAN"); // Add other country codes as needed
-        model.addAttribute("countries", countries);
-        return "graphs/annual_surface_temperature_changes";
-    }
-
     @PostMapping("/graphs/annual_surface_temperature_changes/data")
     @ResponseBody
-    public List<CountryData> getCountryData(@RequestBody List<String> countries) {
-        System.out.println("Received countries: " + countries);  // Log the received countries
-        ArrayList<char[]> isoCodes = new ArrayList<>(countries.stream().map(String::toCharArray).collect(Collectors.toList()));
+    public List<CountryData> getASTCCountryData(@RequestBody List<String> countries) {
+        ArrayList<char[]> isoCodes = (ArrayList<char[]>) countries.stream().map(String::toCharArray).collect(Collectors.toList());
         ArrayList<ArrayList<DataPoint>> dataPoints = chartService.getASTCDataPoints(isoCodes);
 
         List<CountryData> result = new ArrayList<>();
@@ -49,6 +42,82 @@ public class GraphController {
         return result;
     }
 
+    @GetMapping("/graphs/annual_surface_temperature_changes")
+    public String getASTCChart(@NotNull Model model) {
+        List<Country> countries = chartService.getAllCountries();
+        model.addAttribute("countries", countries);
+        return "graphs/annual_surface_temperature_changes";
+    }
+
+    @PostMapping("/graphs/climate-related_disasters_frequency/data")
+    @ResponseBody
+    public List<CountryData> getCRDFCountryData(@RequestBody List<String> countries) {
+        ArrayList<char[]> isoCodes = (ArrayList<char[]>) countries.stream().map(String::toCharArray).collect(Collectors.toList());
+        ArrayList<ArrayList<DataPoint>> dataPoints = chartService.getCRDFDataPoints(isoCodes);
+
+        List<CountryData> result = new ArrayList<>();
+        for (int i = 0; i < countries.size(); i++) {
+            String country = countries.get(i);
+            ArrayList<DataPoint> points = dataPoints.get(i);
+            result.add(new CountryData(country, points));
+        }
+
+        return result;
+    }
+
+    @GetMapping("/graphs/climate-related_disasters_frequency")
+    public String getCRDFChart(@NotNull Model model) {
+        List<Country> countries = chartService.getAllCountries();
+        model.addAttribute("countries", countries);
+        return "graphs/climate-related_disasters_frequency";
+    }
+
+    @PostMapping("/graphs/forest_and_carbon/data")
+    @ResponseBody
+    public List<CountryData> getFCCountryData(@RequestBody List<String> countries) {
+        ArrayList<char[]> isoCodes = (ArrayList<char[]>) countries.stream().map(String::toCharArray).collect(Collectors.toList());
+        ArrayList<ArrayList<DataPoint>> dataPoints = chartService.getFCDataPoints(isoCodes);
+
+        List<CountryData> result = new ArrayList<>();
+        for (int i = 0; i < countries.size(); i++) {
+            String country = countries.get(i);
+            ArrayList<DataPoint> points = dataPoints.get(i);
+            result.add(new CountryData(country, points));
+        }
+
+        return result;
+    }
+
+    @GetMapping("/graphs/forest_and_carbon")
+    public String getFCChart(@NotNull Model model) {
+        List<Country> countries = chartService.getAllCountries();
+        model.addAttribute("countries", countries);
+        return "graphs/forest_and_carbon";
+    }
+
+    @PostMapping("/graphs/land_cover_accounts/data")
+    @ResponseBody
+    public List<CountryData> getLCACountryData(@RequestBody List<String> countries) {
+        ArrayList<char[]> isoCodes = (ArrayList<char[]>) countries.stream().map(String::toCharArray).collect(Collectors.toList());
+        ArrayList<ArrayList<DataPoint>> dataPoints = chartService.getLCADataPoints(isoCodes);
+
+        List<CountryData> result = new ArrayList<>();
+        for (int i = 0; i < countries.size(); i++) {
+            String country = countries.get(i);
+            ArrayList<DataPoint> points = dataPoints.get(i);
+            result.add(new CountryData(country, points));
+        }
+
+        return result;
+    }
+
+    @GetMapping("/graphs/land_cover_accounts")
+    public String getLCAChart(@NotNull Model model) {
+        List<Country> countries = chartService.getAllCountries();
+        model.addAttribute("countries", countries);
+        return "graphs/land_cover_accounts";
+    }
+
     public static class CountryData {
         public String country;
         public List<DataPoint> data;
@@ -58,5 +127,4 @@ public class GraphController {
             this.data = data;
         }
     }
-
 }

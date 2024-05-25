@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <meta charset="UTF-8">
-    <title>Annual Surface Temperature Changes</title>
+    <title>Climate-related Disasters Frequency</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
@@ -26,7 +26,7 @@
 <script>
     // Function to fetch data for the selected countries
     async function fetchCountryData(countries) {
-        const response = await fetch('/graphs/annual_surface_temperature_changes/data', {
+        const response = await fetch('/graphs/climate-related_disasters_frequency/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@
                     type: 'line'
                 },
                 title: {
-                    text: 'Annual Surface Temperature Change'
+                    text: 'Climate-related Disasters Frequency'
                 },
                 xAxis: {
                     title: {
@@ -67,13 +67,13 @@
                     type: 'linear',
                     labels: {
                         formatter: function () {
-                            return this.value; // clean, unformatted number for year
+                            return this.value;
                         }
                     }
                 },
                 yAxis: {
                     title: {
-                        text: 'Temperature Change (°C)'
+                        text: 'Climate-related Disasters Frequency'
                     }
                 },
                 series: seriesData
@@ -84,7 +84,7 @@
                     type: 'line'
                 },
                 title: {
-                    text: 'Annual Surface Temperature Change'
+                    text: 'Climate-related Disasters Frequency'
                 },
                 xAxis: {
                     title: {
@@ -99,7 +99,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Temperature Change (°C)'
+                        text: 'Frequency'
                     }
                 },
                 series: [] // No data when no country is selected

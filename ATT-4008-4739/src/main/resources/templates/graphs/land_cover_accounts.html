@@ -3,7 +3,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <meta charset="UTF-8">
-    <title>Annual Surface Temperature Changes</title>
+    <title>Land Cover Accounts</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
@@ -26,7 +26,7 @@
 <script>
     // Function to fetch data for the selected countries
     async function fetchCountryData(countries) {
-        const response = await fetch('/graphs/annual_surface_temperature_changes/data', {
+        const response = await fetch('/graphs/land_cover_accounts/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@
                     type: 'line'
                 },
                 title: {
-                    text: 'Annual Surface Temperature Change'
+                    text: 'Land Cover Accounts'
                 },
                 xAxis: {
                     title: {
@@ -73,7 +73,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Temperature Change (°C)'
+                        text: 'Land Cover'
                     }
                 },
                 series: seriesData
@@ -84,7 +84,7 @@
                     type: 'line'
                 },
                 title: {
-                    text: 'Annual Surface Temperature Change'
+                    text: 'Land Cover Accounts'
                 },
                 xAxis: {
                     title: {
@@ -99,7 +99,7 @@
                 },
                 yAxis: {
                     title: {
-                        text: 'Temperature Change (°C)'
+                        text: 'Land Cover'
                     }
                 },
                 series: [] // No data when no country is selected

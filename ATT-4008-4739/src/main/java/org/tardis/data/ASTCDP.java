@@ -13,7 +13,7 @@ public class ASTCDP extends DataPoint {
     private char[] ISO3;
     @Column(name = "Year", columnDefinition = "int")
     private int year;
-    @Column(name = "Value", columnDefinition = "int")
+    @Column(name = "Value", columnDefinition = "double")
     private double value;
 
 

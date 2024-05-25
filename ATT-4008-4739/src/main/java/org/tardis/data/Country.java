@@ -6,45 +6,81 @@ import jakarta.persistence.*;
 @Table(name = "Countries")
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "ISO3", columnDefinition = "char")
+    private String ISO3;
 
-    @Column(name = "ISO3", columnDefinition = "char", unique = true, nullable = false)
-    private char[] ISO3;
+    @Column(name = "Display_Name", nullable = false)
+    private String displayName;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "Area_SqKm", columnDefinition = "decimal")
+    private Double areaSqKm;
+
+    @Column(name = "Population")
+    private Integer population;
+
+    @Column(name = "Capital")
+    private String capital;
+
+    @Column(name = "Continent")
+    private String continent;
 
     public Country() {
     }
 
-    public Country(char[] ISO3, String name) {
+    public Country(String ISO3, String displayName, Double areaSqKm, Integer population, String capital, String continent) {
         this.ISO3 = ISO3;
-        this.name = name;
+        this.displayName = displayName;
+        this.areaSqKm = areaSqKm;
+        this.population = population;
+        this.capital = capital;
+        this.continent = continent;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public char[] getISO3() {
+    public String getISO3() {
         return ISO3;
     }
 
-    public void setISO3(char[] ISO3) {
+    public void setISO3(String ISO3) {
         this.ISO3 = ISO3;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public Double getAreaSqKm() {
+        return areaSqKm;
+    }
+
+    public void setAreaSqKm(Double areaSqKm) {
+        this.areaSqKm = areaSqKm;
+    }
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
+
+    public String getCapital() {
+        return capital;
+    }
+
+    public void setCapital(String capital) {
+        this.capital = capital;
+    }
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
     }
 }
