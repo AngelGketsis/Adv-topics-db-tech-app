@@ -2,13 +2,12 @@ package org.tardis.data;
 
 import jakarta.persistence.*;
 
-@Entity
+//@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name = "ISO3", discriminatorType = DiscriminatorType.CHAR)
 public class DataPoint {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ISO3", columnDefinition = "char")
     protected char[] ISO3;
     @Column(name = "Year")

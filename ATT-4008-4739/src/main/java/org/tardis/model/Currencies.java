@@ -2,19 +2,17 @@ package org.tardis.model;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name="Currencies")
+//@Entity
+//@Table(name="Currencies")
 public class Currencies {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="ISO3")
+    //@Id
+    //@GeneratedValue(strategy=GenerationType.IDENTITY)
+    //@Column(name="ISO3", columnDefinition = "char")
     private char[] ISO3;
 
-    @Column(name="Year")
     private int year;
 
-    @Column(name="Value")
     private double value;
 
 

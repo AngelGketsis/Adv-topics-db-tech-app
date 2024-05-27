@@ -1,53 +1,66 @@
 package org.tardis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
-import org.tardis.dao.ASTC_DataDAO;
+import org.tardis.bean.DataBean;
+import org.tardis.dao.*;
+import org.tardis.data.Country;
 import org.tardis.data.DataPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AutoConfiguration
 public class ChartServiceImpl implements ChartService {
 
     @Autowired
-    private ASTC_DataDAO ASTCRepository, CRDFRepository, FCRepository, LCARepository;
-
+    private ASTC_DataDAO ASTCRepository;
     @Autowired
-    public List<List<DataPoint>> getASTCDataPoints(List<char[]> ISOs) {
-        List<List<DataPoint>> dataPoints = new ArrayList<List<DataPoint>>();
+    private CRDF_DataDAO CRDFRepository;
+    @Autowired
+    private FC_DataDAO FCRepository;
+    @Autowired
+    private LCA_DataDAO LCARepository;
+    @Autowired
+    private CountryDAO countryRepository;
+
+
+    public ArrayList<ArrayList<DataPoint>> getASTCDataPoints(ArrayList<char[]> ISOs) {
+        ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < ISOs.size(); i++) {
             dataPoints.add(ASTCRepository.findAllByISO3OrderByYearAsc(ISOs.get(i)));
         }
         return dataPoints;
     }
 
-    @Autowired
-    public List<List<DataPoint>> getCRDFDataPoints(List<char[]> isos) {
-        List<List<DataPoint>> dataPoints = new ArrayList<List<DataPoint>>();
+    public ArrayList<ArrayList<DataPoint>> getCRDFDataPoints(ArrayList<char[]> isos) {
+        ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
             dataPoints.add(CRDFRepository.findAllByISO3OrderByYearAsc(isos.get(i)));
         }
         return dataPoints;
     }
 
-    @Autowired
-    public List<List<DataPoint>> getFCDataPoints(List<char[]> isos) {
-        List<List<DataPoint>> dataPoints = new ArrayList<List<DataPoint>>();
+    public ArrayList<ArrayList<DataPoint>> getFCDataPoints(ArrayList<char[]> isos) {
+        ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
             dataPoints.add(FCRepository.findAllByISO3OrderByYearAsc(isos.get(i)));
         }
         return dataPoints;
     }
 
-    @Autowired
-    public List<List<DataPoint>> getLCADataPoints(List<char[]> isos) {
-        List<List<DataPoint>> dataPoints = new ArrayList<List<DataPoint>>();
+    public ArrayList<ArrayList<DataPoint>> getLCADataPoints(ArrayList<char[]> isos) {
+        ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
-            dataPoints.add(LCARepository.findAllByISO3OrderByYearAsc(isos.get(i)));
+            dataPoints.add(LCARepository.findAllByISO3GroupByISO3YearOrderByYearAsc(isos.get(i)));
         }
         return dataPoints;
+    }
+
+    public List<Country> getAllCountries() {
+        return countryRepository.findAll();
     }
 
 }

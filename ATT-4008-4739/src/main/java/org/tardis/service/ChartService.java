@@ -1,13 +1,15 @@
 package org.tardis.service;
 
-import org.tardis.dao.ASTC_DataDAO;
+import org.tardis.data.Country;
 import org.tardis.data.DataPoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ChartService {
-    List<List<DataPoint>> getASTCDataPoints(List<char[]> isos);
-    List<List<DataPoint>> getCRDFDataPoints(List<char[]> isos);
-    List<List<DataPoint>> getFCDataPoints(List<char[]> isos);
-    List<List<DataPoint>> getLCADataPoints(List<char[]> isos);
+    ArrayList<ArrayList<DataPoint>> getASTCDataPoints(ArrayList<char[]> isos);
+    ArrayList<ArrayList<DataPoint>> getCRDFDataPoints(ArrayList<char[]> isos);
+    ArrayList<ArrayList<DataPoint>> getFCDataPoints(ArrayList<char[]> isos);
+    ArrayList<ArrayList<DataPoint>> getLCADataPoints(ArrayList<char[]> isos);
+    List<Country> getAllCountries();
 }

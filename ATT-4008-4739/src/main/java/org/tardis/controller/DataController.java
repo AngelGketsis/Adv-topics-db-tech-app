@@ -1,5 +1,7 @@
 package org.tardis.controller;
 
+import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.tardis.data.DataPoint;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@AutoConfiguration
 public class DataController {
     private static final String BASE_PATH = "./classes/data";
     private static final String[] files = {
@@ -56,6 +60,7 @@ public class DataController {
         } else {
             return ResponseEntity.badRequest().body("Please select a file to upload.");
         }
+
     }
 
     public static class FileStatus {
@@ -75,5 +80,6 @@ public class DataController {
             return exists;
         }
     }
+
 }
 
