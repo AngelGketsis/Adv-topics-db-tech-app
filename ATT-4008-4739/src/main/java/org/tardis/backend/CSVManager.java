@@ -86,12 +86,57 @@ public class CSVManager {
         return columns.toArray(new String[0]);
     }
 
+    public static String extractIndicatorValue(String indicator) {
+        int colonIndex = indicator.lastIndexOf(':');
+        if (colonIndex != -1 && colonIndex + 1 < indicator.length()) {
+            return indicator.substring(colonIndex + 1).trim();
+        }
+        return indicator; // Return the whole string if no colon is found
+    }
 
+    public static void processCRDF(String inputFile, String outputFile) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+             FileWriter writer = new FileWriter(outputFile)) {
+
+            // Write header line
+            writer.write("ISO3,Indicator,Year,Value\n");
+
+            String line;
+            boolean firstLine = true; // Flag to skip the first line
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue; // Skip the first line (header)
+                }
+
+                // Split the line manually
+                String[] columns = parseCSVLine(line);
+
+                // Extract ISO3 and Indicator
+                String iso3 = columns[0].trim(); // Assuming ISO3 is at index 0
+                String indicator = columns[1].trim(); // Assuming Indicator is at index 1
+                String indicatorValue = extractIndicatorValue(indicator); // Extract value after the colon
+
+                // Process F columns
+                for (int i = 2; i < columns.length; i++) {
+                    String year ="" + (1961 + i - 2); // Extracting year from column index
+                    String value = columns[i].trim();
+
+                    if (!value.isEmpty()) {
+                        writer.write(iso3 + "," + indicatorValue + "," + year + "," + value + "\n");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void processCSV(String inputFile, String outputFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
              FileWriter writer = new FileWriter(outputFile)) {
 
+            // Write header line
             writer.write("ISO3,Year,Value\n");
 
             String line;
@@ -122,6 +167,42 @@ public class CSVManager {
         }
     }
 
+    public static void processFC(String inputFile, String outputFile) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
+             FileWriter writer = new FileWriter(outputFile)) {
+
+            // Write header line
+            writer.write("ISO3,Indicator,Year,Value\n");
+
+            String line;
+            boolean firstLine = true; // Flag to skip the first line
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue; // Skip the first line (header)
+                }
+
+                // Split the line manually
+                String[] columns = parseCSVLine(line);
+
+                // Extract ISO3 and Indicator
+                String iso3 = columns[0].trim(); // Assuming ISO3 is at index 0
+                String indicator = columns[1].trim(); // Assuming Indicator is at index 1
+
+                // Process F columns
+                for (int i = 2; i < columns.length; i++) {
+                    String year ="" + (1961 + i - 2); // Extracting year from column index
+                    String value = columns[i].trim();
+
+                    if (!value.isEmpty()) {
+                        writer.write(iso3 + "," + indicator + "," + year + "," + value + "\n");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
         String inputFile = dataDir + "countries.csv"; // Path to input CSV file
@@ -147,12 +228,12 @@ public class CSVManager {
         processCSV(dataDir + "/ASTC_idoc.csv", dataDir + "/ASTC_data.csv");
 
         try {
-            copyColumns(dataDir + "/Climate-related_Disasters_Frequency.csv", dataDir + "/CRDF_idoc.csv", new String[] {"ISO3","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
+            copyColumns(dataDir + "/Climate-related_Disasters_Frequency.csv", dataDir + "/CRDF_idoc.csv", new String[] {"ISO3","Indicator","F1980","F1981","F1982","F1983","F1984","F1985","F1986","F1987","F1988","F1989","F1990","F1991","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020","F2021","F2022"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV(dataDir + "/CRDF_idoc.csv", dataDir + "/CRDF_data.csv");
+        processCRDF(dataDir + "/CRDF_idoc.csv", dataDir + "/CRDF_data.csv");
 
         try {
             copyColumns(dataDir + "/Land_Cover_Accounts.csv", dataDir + "/LCA_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
@@ -163,12 +244,12 @@ public class CSVManager {
         processCSV(dataDir + "/LCA_idoc.csv", dataDir + "/LCA_data.csv");
 
         try {
-            copyColumns(dataDir + "/Forest_and_Carbon.csv", dataDir + "/FC_idoc.csv", new String[] {"ISO3","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
+            copyColumns(dataDir + "/Forest_and_Carbon.csv", dataDir + "/FC_idoc.csv", new String[] {"ISO3","Indicator","F1992","F1993","F1994","F1995","F1996","F1997","F1998","F1999","F2000","F2001","F2002","F2003","F2004","F2005","F2006","F2007","F2008","F2009","F2010","F2011","F2012","F2013","F2014","F2015","F2016","F2017","F2018","F2019","F2020"});
             System.out.println("Columns copied successfully!");
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
-        processCSV(dataDir + "/FC_idoc.csv", dataDir + "/FC_data.csv");
+        processFC(dataDir + "/FC_idoc.csv", dataDir + "/FC_data.csv");
 
     }
 

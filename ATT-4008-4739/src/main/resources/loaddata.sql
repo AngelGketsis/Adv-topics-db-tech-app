@@ -52,7 +52,7 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(ISO3, Year, Value);
+(ISO3, Indicator, Year, Value);
 
 -- Load data into ASTC_Data table
 LOAD DATA LOCAL INFILE 'E:/CS UOI/Earino/Advanced Tech/ATT-4008-4739/target/classes/data/FC_data.csv'
@@ -61,7 +61,7 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(ISO3, Year, Value);
+(ISO3,  Indicator, Year, Value);
 
 -- Load data into ASTC_Data table
 LOAD DATA LOCAL INFILE 'E:/CS UOI/Earino/Advanced Tech/ATT-4008-4739/target/classes/data/LCA_data.csv'

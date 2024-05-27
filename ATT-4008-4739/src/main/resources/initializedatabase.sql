@@ -51,26 +51,36 @@ CREATE TABLE CountryDevelopmentStatus (
 CREATE TABLE ASTC_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value DOUBLE
+    Value DOUBLE,
+    PRIMARY KEY (ISO3, Year),
+    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
 -- Create CountryData table
 CREATE TABLE CRDF_Data (
     ISO3 CHAR(15),
+    Indicator CHAR(20),
     Year INT,
-    Value INT
+    Value INT,
+    PRIMARY KEY (ISO3, Year, Indicator),
+    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
 -- Create CountryData table
 CREATE TABLE FC_Data (
     ISO3 CHAR(15),
+    Indicator CHAR(35),
     Year INT,
-    Value DOUBLE
+    Value DOUBLE,
+    PRIMARY KEY (ISO3, Year, Indicator),
+    FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
 -- Create CountryData table
 CREATE TABLE LCA_Data (
     ISO3 CHAR(15),
     Year INT,
-    Value DOUBLE
+    Value DOUBLE,
+    PRIMARY KEY (ISO3, Year),
+    FOREIGN KEY (ISO3) REFERENCES Countries(ISO3)
 );

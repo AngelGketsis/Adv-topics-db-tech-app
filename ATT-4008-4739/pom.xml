@@ -59,6 +59,8 @@
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
 
+
+
     </dependencies>
 
     <build>
