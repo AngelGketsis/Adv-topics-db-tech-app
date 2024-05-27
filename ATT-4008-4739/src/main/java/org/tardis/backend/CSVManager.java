@@ -1,10 +1,9 @@
 package org.tardis.backend;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 
 public class CSVManager {
 
@@ -18,7 +17,7 @@ public class CSVManager {
             if (headerLine == null) {
                 throw new IOException("Input file is empty.");
             }
-            String[] headers = parseCSVLine(headerLine); // Parsing header line
+            String[] headers = TextHelper.parseCSVLine(headerLine); // Parsing header line
 
             Map<String, Integer> headerMap = new HashMap<>();
             for (int i = 0; i < headers.length; i++) {
@@ -34,7 +33,7 @@ public class CSVManager {
                 }
             }
             // Remove the last comma
-            if (newHeaderLine.length() > 0) {
+            if (!newHeaderLine.isEmpty()) {
                 newHeaderLine.deleteCharAt(newHeaderLine.length() - 1);
             }
 
@@ -43,7 +42,7 @@ public class CSVManager {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] columns = parseCSVLine(line);
+                String[] columns = TextHelper.parseCSVLine(line);
 
                 StringBuilder newLine = new StringBuilder();
                 for (String column : columnsToCopy) {
@@ -55,7 +54,7 @@ public class CSVManager {
                     newLine.append(value).append(",");
                 }
                 // Remove the last comma
-                if (newLine.length() > 0) {
+                if (!newLine.isEmpty()) {
                     newLine.deleteCharAt(newLine.length() - 1);
                 }
 
@@ -65,42 +64,9 @@ public class CSVManager {
         }
     }
 
-    // Custom CSV line parser to handle quoted values containing commas
-    private static String[] parseCSVLine(String line) {
-        List<String> columns = new ArrayList<>();
-        StringBuilder currentColumn = new StringBuilder();
-        boolean inQuotes = false;
 
-        for (char c : line.toCharArray()) {
-            if (c == '"') {
-                inQuotes = !inQuotes;
-            } else if (c == ',' && !inQuotes) {
-                columns.add(currentColumn.toString());
-                currentColumn.setLength(0);
-            } else {
-                currentColumn.append(c);
-            }
-        }
 
-        columns.add(currentColumn.toString());
-        return columns.toArray(new String[0]);
-    }
 
-    public static String extractIndicatorValue(String indicator) {
-        int colonIndex = indicator.lastIndexOf(':');
-        if (colonIndex != -1 && colonIndex + 1 < indicator.length()) {
-            return indicator.substring(colonIndex + 1).trim();
-        }
-        return indicator; // Return the whole string if no colon is found
-    }
-
-    public static String quoteIfNeeded(String value) {
-        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
-            value = value.replace("\"", "\"\""); // Escape quotes by doubling them
-            return "\"" + value + "\"";
-        }
-        return value;
-    }
 
     public static void processCRDF(String inputFile, String outputFile) {
         try (BufferedReader br = new BufferedReader(new FileReader(inputFile));
@@ -118,12 +84,12 @@ public class CSVManager {
                 }
 
                 // Split the line manually
-                String[] columns = parseCSVLine(line);
+                String[] columns = TextHelper.parseCSVLine(line);
 
                 // Extract ISO3 and Indicator
                 String iso3 = columns[0].trim(); // Assuming ISO3 is at index 0
                 String indicator = columns[1].trim(); // Assuming Indicator is at index 1
-                String indicatorValue = extractIndicatorValue(indicator); // Extract value after the colon
+                String indicatorValue = TextHelper.extractIndicatorValue(indicator); // Extract value after the colon
 
                 // Process F columns
                 for (int i = 2; i < columns.length; i++) {
@@ -191,7 +157,7 @@ public class CSVManager {
                 }
 
                 // Split the line manually
-                String[] columns = parseCSVLine(line);
+                String[] columns = TextHelper.parseCSVLine(line);
 
                 // Extract ISO3 and Indicator
                 String iso3 = columns[0].trim(); // Assuming ISO3 is at index 0
@@ -228,7 +194,7 @@ public class CSVManager {
                 }
 
                 // Split the line manually
-                String[] columns = parseCSVLine(line);
+                String[] columns = TextHelper.parseCSVLine(line);
 
                 // Extract ISO3 and Indicator
                 String iso3 = columns[0].trim(); // Assuming ISO3 is at index 0
@@ -241,7 +207,7 @@ public class CSVManager {
                     String value = columns[i].trim();
 
                     if (!value.isEmpty()) {
-                        writer.write(iso3 + "," + quoteIfNeeded(indicator) + "," + altering + "," + year + "," + value + "\n");
+                        writer.write(iso3 + "," + TextHelper.quoteIfNeeded(indicator) + "," + altering + "," + year + "," + value + "\n");
                     }
                 }
             }
