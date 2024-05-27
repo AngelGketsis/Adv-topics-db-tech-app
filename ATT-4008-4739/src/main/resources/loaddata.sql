@@ -70,4 +70,4 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(ISO3, Year, Value);
+(ISO3, Indicator, Influence, Year, Value);

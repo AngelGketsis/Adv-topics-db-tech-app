@@ -62,7 +62,7 @@ CREATE TABLE CRDF_Data (
     Indicator CHAR(20),
     Year INT,
     Value INT,
-    PRIMARY KEY (ISO3, Year, Indicator),
+    PRIMARY KEY (ISO3, Indicator, Year),
     FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
@@ -72,15 +72,17 @@ CREATE TABLE FC_Data (
     Indicator CHAR(35),
     Year INT,
     Value DOUBLE,
-    PRIMARY KEY (ISO3, Year, Indicator),
+    PRIMARY KEY (ISO3, Indicator, Year),
     FOREIGN KEY(ISO3) REFERENCES Countries(ISO3)
 );
 
 -- Create CountryData table
 CREATE TABLE LCA_Data (
     ISO3 CHAR(15),
+    Indicator CHAR(70),
+    Influence CHAR(20),
     Year INT,
     Value DOUBLE,
-    PRIMARY KEY (ISO3, Year),
+    PRIMARY KEY (ISO3, Indicator, Influence, Year),
     FOREIGN KEY (ISO3) REFERENCES Countries(ISO3)
 );
