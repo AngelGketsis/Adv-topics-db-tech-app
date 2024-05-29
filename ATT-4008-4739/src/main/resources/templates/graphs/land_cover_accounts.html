@@ -12,26 +12,37 @@
 <div th:replace="fragments/header :: header" type="header"></div>
 
 <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<button onclick="updateChart()">Generate Chart</button>
+<hr class="divider">
+<div id="indicator-selector">
+    <h3>Select indicators:</h3>
+    <div style="display: flex; flex-wrap: wrap;">
+        <div th:each="indicator : ${indicators}" style="flex: 1 1 200px; margin: 5px;">
+            <input type="checkbox" name="indicator" th:value="${indicator}">
+            <span th:text="${indicator}"></span>
+        </div>
+    </div>
+</div>
 <hr class="divider">
 <div id="country-selector">
     <h3>Select countries:</h3>
     <div style="display: flex; flex-wrap: wrap;">
         <div th:each="country : ${countries}" style="flex: 1 1 200px; margin: 5px;">
-            <input type="checkbox" name="country" th:value="${country.ISO3}" th:onchange="updateChart()">
+            <input type="checkbox" name="country" th:value="${country.ISO3}">
             <span th:text="${country.ISO3} + ' : ' + ${country.displayName}"></span>
         </div>
     </div>
 </div>
 
 <script>
-    // Function to fetch data for the selected countries
-    async function fetchCountryData(countries) {
+    // Function to fetch data for the selected countries and indicators
+    async function fetchCountryData(countries, indicators) {
         const response = await fetch('/graphs/land_cover_accounts/data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(countries),
+            body: JSON.stringify({ countries, indicators }),
         });
 
         if (!response.ok) {
@@ -46,10 +57,12 @@
     // Function to update the chart
     async function updateChart() {
         const selectedCountries = Array.from(document.querySelectorAll('input[name="country"]:checked')).map(cb => cb.value);
-        if (selectedCountries.length > 0) {
-            const dataPoints = await fetchCountryData(selectedCountries);
+        const selectedIndicators = Array.from(document.querySelectorAll('input[name="indicator"]:checked')).map(cb => cb.value);
+
+        if (selectedCountries.length > 0 && selectedIndicators.length > 0) {
+            const dataPoints = await fetchCountryData(selectedCountries, selectedIndicators);
             const seriesData = dataPoints.map(countryData => ({
-                name: countryData.country,
+                name: `${countryData.country} : ${countryData.indicator}`,
                 data: countryData.data.map(dp => [dp.year, dp.value])
             }));
 
@@ -102,7 +115,7 @@
                         text: 'Land Cover'
                     }
                 },
-                series: [] // No data when no country is selected
+                series: [] // No data when no country or indicator is selected
             });
         }
     }

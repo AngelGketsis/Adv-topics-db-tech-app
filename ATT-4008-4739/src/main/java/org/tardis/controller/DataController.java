@@ -1,6 +1,6 @@
 package org.tardis.controller;
 
-import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.tardis.data.DataPoint;
+import org.tardis.service.ScriptWriter;
+import org.tardis.service.ScriptWriterImpl;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -28,6 +27,9 @@ public class DataController {
         "Climate-related_Disasters_Frequency.csv",
         "Annual_Surface_Temperature_Change.csv"
     };
+
+    @Autowired
+    private ScriptWriter scriptWriter;
 
     @GetMapping("/data")
     public String listFiles(Model model) {
@@ -61,6 +63,20 @@ public class DataController {
             return ResponseEntity.badRequest().body("Please select a file to upload.");
         }
 
+    }
+
+    @PostMapping("/data/init-data")
+    public String initData() {
+        scriptWriter.writeInitializeDatabase();
+        scriptWriter.initializeDatabaseSQL();
+        return "Successfully initialized database!";
+    }
+
+    @PostMapping("/data/load-data")
+    public String loadData() {
+        scriptWriter.writeLoadData();
+        scriptWriter.loadDataSQL();
+        return "Successfully loaded data to database!";
     }
 
     public static class FileStatus {

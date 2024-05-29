@@ -3,7 +3,6 @@ package org.tardis.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.stereotype.Service;
-import org.tardis.bean.DataBean;
 import org.tardis.dao.*;
 import org.tardis.data.Country;
 import org.tardis.data.DataPoint;
@@ -35,26 +34,32 @@ public class ChartServiceImpl implements ChartService {
         return dataPoints;
     }
 
-    public ArrayList<ArrayList<DataPoint>> getCRDFDataPoints(ArrayList<char[]> isos) {
+    public ArrayList<ArrayList<DataPoint>> getCRDFDataPoints(ArrayList<char[]> isos, List<String> indicators) {
         ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
-            dataPoints.add(CRDFRepository.findAllByISO3OrderByYearAsc(isos.get(i)));
+            for (int j = 0; j < indicators.size(); j++) {
+                dataPoints.add(CRDFRepository.findAllByISO3AndIndicatorOrderByYearAsc(isos.get(i), indicators.get(j).toCharArray()));
+            }
         }
         return dataPoints;
     }
 
-    public ArrayList<ArrayList<DataPoint>> getFCDataPoints(ArrayList<char[]> isos) {
+    public ArrayList<ArrayList<DataPoint>> getFCDataPoints(ArrayList<char[]> isos, List<String> indicators) {
         ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
-            dataPoints.add(FCRepository.findAllByISO3OrderByYearAsc(isos.get(i)));
+            for (int j = 0; j < indicators.size(); j++) {
+                dataPoints.add(FCRepository.findAllByISO3AndIndicatorOrderByYearAsc(isos.get(i), indicators.get(j).toCharArray()));
+            }
         }
         return dataPoints;
     }
 
-    public ArrayList<ArrayList<DataPoint>> getLCADataPoints(ArrayList<char[]> isos) {
+    public ArrayList<ArrayList<DataPoint>> getLCADataPoints(ArrayList<char[]> isos, List<String> indicators) {
         ArrayList<ArrayList<DataPoint>> dataPoints = new ArrayList<ArrayList<DataPoint>>();
         for (int i = 0; i < isos.size(); i++) {
-            dataPoints.add(LCARepository.findAllByISO3GroupByISO3YearOrderByYearAsc(isos.get(i)));
+            for (int j = 0; j < indicators.size(); j++) {
+                dataPoints.add(LCARepository.findAllByISO3AndIndicatorOrderByYearAsc(isos.get(i), indicators.get(j).toCharArray()));
+            }
         }
         return dataPoints;
     }

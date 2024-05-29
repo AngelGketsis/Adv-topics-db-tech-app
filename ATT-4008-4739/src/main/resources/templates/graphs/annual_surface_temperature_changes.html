@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/graph-style.css">
     <meta charset="UTF-8">
     <title>Annual Surface Temperature Changes</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -11,7 +12,7 @@
 <!-- Include Header -->
 <div th:replace="fragments/header :: header" type="header"></div>
 
-<div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto; width: 100%;"></div>
 <hr class="divider">
 <div id="country-selector">
     <h3>Select countries:</h3>
@@ -43,7 +44,7 @@
         return response.json();
     }
 
-    // Function to update the chart
+    // Function to update the line chart
     async function updateChart() {
         const selectedCountries = Array.from(document.querySelectorAll('input[name="country"]:checked')).map(cb => cb.value);
         if (selectedCountries.length > 0) {
@@ -105,6 +106,82 @@
                 series: [] // No data when no country is selected
             });
         }
+    }
+
+    // Function to update the column chart
+    async function updateColumnChart() {
+        const years = document.getElementById('yearsInput').value.split(',').map(year => year.trim());
+        const selectedCountries = Array.from(document.querySelectorAll('input[name="columnCountry"]:checked')).map(cb => cb.value);
+
+        if (years.length > 0 && selectedCountries.length > 0) {
+            const dataPoints = await fetchCountryDataForYears(selectedCountries, years);
+            const seriesData = dataPoints.map(countryData => ({
+                name: countryData.country,
+                data: countryData.data.map(dp => [dp.year, dp.value])
+            }));
+
+            Highcharts.chart('columnChart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Temperature Change by Year and Country'
+                },
+                xAxis: {
+                    categories: years,
+                    title: {
+                        text: 'Year'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Temperature Change (°C)'
+                    }
+                },
+                series: seriesData
+            });
+        } else {
+            Highcharts.chart('columnChart', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Temperature Change by Year and Country'
+                },
+                xAxis: {
+                    categories: [],
+                    title: {
+                        text: 'Year'
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Temperature Change (°C)'
+                    }
+                },
+                series: [] // No data when no countries or years are selected
+            });
+        }
+    }
+
+    async function fetchCountryDataForYears(countries, years) {
+        const response = await fetch('/graphs/annual_surface_temperature_changes/dataForYears', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ countries, years }),
+        });
+
+        if (!response.ok) {
+            const errorDetails = await response.json();
+            console.error('Error fetching data:', errorDetails);
+            throw new Error('Network response was not ok');
+        }
+
+        return response.json();
     }
 
     // Initial chart setup

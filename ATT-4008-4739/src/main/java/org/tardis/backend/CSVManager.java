@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class CSVManager {
 
-    private static String dataDir = "./classes/data/";
+    private static String dataDir = "./classes/data/"; // from target dir
 
     public static void copyColumns(String inputFile, String outputFile, String[] columnsToCopy) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
