@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface LCA_DataDAO extends JpaRepository<LCADP, char[]> {
     ArrayList<DataPoint> findAllByISO3AndIndicatorOrderByYearAsc(char[] ISO3, char[] Indicator); // returns list of currencies
+    ArrayList<DataPoint> findAllByISO3AndIndicatorAndInfluenceOrderByYearAsc(char[] ISO3, char[] Indicator, char[] influence); // returns list of currencies
 }

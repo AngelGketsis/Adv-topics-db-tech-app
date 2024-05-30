@@ -216,7 +216,7 @@ public class CSVManager {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main() {
         String inputFile = dataDir + "countries.csv"; // Path to input CSV file
 
         String[] outputFile = {dataDir + "/geo_data.csv", dataDir + "/currency_data.csv", dataDir + "/development_data.csv", dataDir + "/region_data.csv"}; // Paths to output CSV files
