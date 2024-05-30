@@ -9,5 +9,5 @@ import java.util.ArrayList;
 
 @Repository
 public interface ASTC_DataDAO extends JpaRepository<ASTCDP, char[]> {
-    ArrayList<DataPoint> findAllByISO3O rderByYearAsc(char[] ISO3); // returns list of currencies
+    ArrayList<DataPoint> findAllByISO3OrderByYearAsc(char[] ISO3); // returns list of currencies
 }
