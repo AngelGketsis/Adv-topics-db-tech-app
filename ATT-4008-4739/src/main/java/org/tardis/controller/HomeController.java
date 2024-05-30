@@ -11,7 +11,16 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("message", "Welcome to our simple Spring site!");
         return "index";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+        return "report";
+    }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        return "about";
     }
 }
