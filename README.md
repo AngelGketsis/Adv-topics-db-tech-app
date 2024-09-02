@@ -12,9 +12,9 @@ This application is a data-driven tool designed to facilitate the exploration, a
 
 ### Rudimentary Data Analysis:
   Beyond simple data exploration, the application includes tools for performing basic data analysis. Users can conduct studies such as:
-  Temporal Analysis: 
+  - Temporal Analysis: 
     Users can analyze how specific climatic quantities (e.g., temperature, precipitation) evolve over time. This could involve plotting trends, identifying seasonal patterns, or comparing different time periods.
-  Correlation Analysis: 
+  - Correlation Analysis: 
     Users can study the relationships between different climatic variables. For example, the application might allow users to visualize the correlation between temperature and humidity or to explore how these variables interact over time.
   These analytical tools help users to derive insights from the data, even if they do not have advanced statistical expertise.
 
